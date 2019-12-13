@@ -1,7 +1,7 @@
-def pick(attrs: dict, allowed: list) -> dict:
+def pick(attrs, allowed):
     ''' Return a dictionary with specific keys in allowed '''
     if attrs is None:
-        return null
+        return None
 
     h = {}
 
@@ -13,14 +13,14 @@ def pick(attrs: dict, allowed: list) -> dict:
     return h
 
 
-def is_string(text: any) -> bool:
+def is_string(text):
     ''' Return if a text value is a string'''
     return isinstance(text, str)
 
 
-def is_function(fn: any) -> bool:
+def is_function(fn):
     ''' Return if a fn value is a function '''
-    return str(type(fn)) == "<class 'function'>"
+    return callable(fn)
 
 
 def get_tag(tag, ending):
@@ -28,12 +28,12 @@ def get_tag(tag, ending):
     return "<{}{}>".format(tag, ending)
 
 
-def get_closing_tag(tag: str) -> str:
+def get_closing_tag(tag):
     ''' Returns a closing tag representation '''
     return "</{}>".format(tag)
 
 
-def render_tag(tags, ending = ''):
+def render_tag(tags, ending=''):
     if is_string(tags):
         return get_tag(tags, ending)
 
@@ -50,18 +50,18 @@ def render_tag(tags, ending = ''):
                     value = attrs[key]
                     if value != None:
                         h += ' {}="{}"'.format(key, value)
-            
+
             _tag.append("{}{}>".format(h, ending))
-    
+
     return "".join(_tag)
 
 
-def render_opening_tag(tag: str) -> str:
+def render_opening_tag(tag):
     ''' Returns a opening tag '''
     return render_tag(tag, '')
 
 
-def render_closing_tag(tags: any) -> str:
+def render_closing_tag(tags):
     '''
     Returns a opening tag
 
@@ -75,7 +75,7 @@ def render_closing_tag(tags: any) -> str:
     '''
     if is_string(tags):
         return get_closing_tag(tags)
-    
+
     _all = []
 
     for tag in tags[::-1]:
@@ -83,5 +83,5 @@ def render_closing_tag(tags: any) -> str:
             _all.append(get_closing_tag(tag))
         else:
             _all.append(get_closing_tag(tag.get('tag')))
-    
+
     return "".join(_all)
